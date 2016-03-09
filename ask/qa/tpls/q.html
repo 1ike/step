@@ -1,0 +1,7 @@
+<h1>{{ q.title }}</h1>
+<p>{{ q.text }}</p>
+<ul>
+{% for answer in a %}
+  <li>{{ answer.text }} - {{ answer.author }} - {{ answer.added_at }}</li>
+{% endfor %}
+</ul>

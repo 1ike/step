@@ -88,6 +88,6 @@ STATIC_URL = '/static/'
 # TEMPLATES
 
 TEMPLATE_DIRS = (
-    "/home/box/web/ask/qa",
+    "/home/box/web/ask/qa/tpls",
 )
 
