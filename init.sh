@@ -6,7 +6,7 @@ sudo /etc/init.d/gunicorn restart
 sudo /etc/init.d/mysql restart
 
 #  rm -rf /home/box
-#  git clone https://github.com/discodanser/step.git /home/box
+#  git clone https://github.com/discodanser/step.git /home/box/web
 #  bash /home/box/web/init.sh
 
 #  sudo /etc/init.d/nginx restart

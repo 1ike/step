@@ -1,16 +1,21 @@
+# -*- coding: utf-8 -*-
+
 #from django.http import HttpResponse
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.core.paginator import *
+from django.contrib.auth.decorators import login_required
 
 
 from models import * #Question, Answer
+from forms import *
+
+
 
 def test(request, *args, **kwargs):
-
-
   return render_to_response('h.html')
 #  return HttpResponse('OK')
+
 
 
 def question(request, id):
@@ -19,10 +24,43 @@ def question(request, id):
     a = Answer.objects.filter(question=id)[:]
   except Answer.DoesNotExist:
     a = none
+
+  form = get_answer_form(request)
+
   return render(request, 'q.html', {
       'q' : q,
       'a' : a,
+      'form' : form,
+      'user': request.user
   })
+
+def answer(request):
+  form = get_answer_form(request)
+
+  try:
+    form.q_id
+    return HttpResponseRedirect('/question/'+str(form.q_id)+'/')
+  except:
+    return render(request, 'q.html', {
+        'form' : form,
+        'user': request.user
+    })
+
+
+
+def get_answer_form(request):
+  if request.method == 'POST' and request.user.is_authenticated():
+    form = AnswerForm(request.user, request.POST)
+    if form.is_valid():
+      new_a = form.save()
+      form = AnswerForm(request.user)
+      form.greeting = "Аффтар, пишы ищо!"
+      form.q_id = new_a.question_id
+    return form
+  else:
+    return AnswerForm(request.user)
+
+
 
 def questions_list(request, **opt):
   qs = Question.objects
@@ -45,6 +83,7 @@ def questions_list(request, **opt):
       'page' : page,
   })
 
+
 def paginate(request, qs):
   try:
     limit = int(request.GET.get('limit', 10))
@@ -62,6 +101,35 @@ def paginate(request, qs):
   except EmptyPage:
     page = paginator.page(paginator.num_pages)
   return page
+
+
+#@login_required
+#def answer(request):
+#  try:
+#    a = Answer.objects.filter(question=id)[:]
+#  except Answer.DoesNotExist:
+#    a = none
+#
+#  return render(request, 'a.html', {
+#      'q' : q,
+#      'a' : a,
+#  })
+
+
+
+
+@login_required
+def ask(request):
+  if request.method == 'POST':
+    form = AskForm(request.user, request.POST)
+    if form.is_valid():
+      q = form.save()
+      return HttpResponseRedirect('/question/'+str(q.id)+'/')
+  else:
+    form = AskForm(request.user)
+
+  return render(request, 'ask.html', {'form': form, 'user': request.user})
+
 
 
 
