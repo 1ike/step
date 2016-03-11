@@ -34,6 +34,7 @@ def question(request, id):
       'user': request.user
   })
 
+@login_required
 def answer(request):
   form = get_answer_form(request)
 
@@ -50,15 +51,17 @@ def answer(request):
 
 def get_answer_form(request):
   if request.method == 'POST' and request.user.is_authenticated():
-    form = AnswerForm(request.user, request.POST)
+#    form = AnswerForm(request.user, request.POST)
+    form = AnswerForm(request.POST)
     if form.is_valid():
-      new_a = form.save()
-      form = AnswerForm(request.user)
+      new_a = form.save(request.user)
+      form = AnswerForm()
       form.greeting = "Аффтар, пишы ищо!"
       form.q_id = new_a.question_id
     return form
   else:
-    return AnswerForm(request.user)
+#    return AnswerForm(request.user)
+    return AnswerForm()
 
 
 
@@ -103,17 +106,8 @@ def paginate(request, qs):
   return page
 
 
-#@login_required
-#def answer(request):
-#  try:
-#    a = Answer.objects.filter(question=id)[:]
-#  except Answer.DoesNotExist:
-#    a = none
-#
-#  return render(request, 'a.html', {
-#      'q' : q,
-#      'a' : a,
-#  })
+
+
 
 
 
@@ -121,12 +115,14 @@ def paginate(request, qs):
 @login_required
 def ask(request):
   if request.method == 'POST':
-    form = AskForm(request.user, request.POST)
+#    form = AskForm(request.user, request.POST)
+    form = AskForm(request.POST)
     if form.is_valid():
-      q = form.save()
+      q = form.save(request.user)
       return HttpResponseRedirect('/question/'+str(q.id)+'/')
   else:
-    form = AskForm(request.user)
+#    form = AskForm(request.user)
+    form = AskForm()
 
   return render(request, 'ask.html', {'form': form, 'user': request.user})
 

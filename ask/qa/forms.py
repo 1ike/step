@@ -9,12 +9,13 @@ class AskForm(forms.Form):
   title = forms.CharField()
   text = forms.CharField(widget=forms.Textarea)
 
-  def __init__(self, user, *opt):
-    self._user = user
-    super(AskForm, self).__init__(*opt)
+#  def __init__(self, user, *opt):
+#    self._user = user
+#    super(AskForm, self).__init__(*opt)
 
-  def save(self):
-    self.cleaned_data['author'] = self._user
+  def save(self, user):
+#    self.cleaned_data['author'] = self._user
+    self.cleaned_data['author'] = user
     return Question.objects.create(**self.cleaned_data)
 
 
@@ -23,9 +24,9 @@ class AnswerForm(forms.Form):
   question = forms.IntegerField(min_value=1)
   text = forms.CharField(widget=forms.Textarea)
 
-  def __init__(self, user, *opt):
-    self._user = user
-    super(AnswerForm, self).__init__(*opt)
+#  def __init__(self, user, *opt):
+#    self._user = user
+#    super(AnswerForm, self).__init__(*opt)
 
 
   def clean_question(self):
@@ -35,12 +36,13 @@ class AnswerForm(forms.Form):
     except:
       raise forms.ValidationError("Нет такого вопроса!")
 
-  def save(self):
+  def save(self, user):
     pass
     return Answer.objects.create(
       question=self._q,
       text=self.cleaned_data['text'],
-      author=self._user
+#      author=self._user
+      author=user
     )
 
 
