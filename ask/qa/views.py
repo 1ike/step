@@ -50,8 +50,8 @@ def answer(request):
 
 
 def get_answer_form(request):
-#if request.method == 'POST' and request.user.is_authenticated():
-if request.method == 'POST':
+#  if request.method == 'POST' and request.user.is_authenticated():
+  if request.method == 'POST':
 #    form = AnswerForm(request.user, request.POST)
     form = AnswerForm(request.POST)
     if form.is_valid():
@@ -105,11 +105,6 @@ def paginate(request, qs):
   except EmptyPage:
     page = paginator.page(paginator.num_pages)
   return page
-
-
-
-
-
 
 
 
