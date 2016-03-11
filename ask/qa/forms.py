@@ -16,7 +16,7 @@ class AskForm(forms.Form):
   def save(self):
     if self._user != 'Anonymous':
       pass
-#      self.cleaned_data['author'] = self._user
+      self.cleaned_data['author'] = self._user
     return Question.objects.create(**self.cleaned_data)
 
 
