@@ -10,15 +10,9 @@ class AskForm(forms.Form):
   title = forms.CharField()
   text = forms.CharField(widget=forms.Textarea)
 
-  def __init__(self, user, **kwargs):
-    print '__init__'
-    self._user = user
-    super(AskForm, self).__init__(**kwargs)
-
-  def save(self):
-    if self._user != 'Anonymous':
-      pass
-#      self.cleaned_data['author'] = self._user
+  def save(self, user):
+    if user.is_authenticated():
+      self.cleaned_data['author'] = user
     return Question.objects.create(**self.cleaned_data)
 
 
@@ -28,11 +22,6 @@ class AnswerForm(forms.Form):
   question = forms.IntegerField(min_value=1)
   text = forms.CharField(widget=forms.Textarea)
 
-  def __init__(self, user, *args, **kwargs):
-    self._user = user
-    super(AnswerForm, self).__init__(*args, **kwargs)
-
-
   def clean_question(self):
     try:
       question = self.cleaned_data['question']
@@ -40,7 +29,7 @@ class AnswerForm(forms.Form):
     except:
       raise forms.ValidationError("Нет такого вопроса!")
 
-  def save(self):
+  def save(self, user):
     if self._user != 'Anonymous':
       self.cleaned_data['author'] = self._user
     return Answer.objects.create(

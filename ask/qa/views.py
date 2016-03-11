@@ -26,22 +26,18 @@ def question(request, id):
   except Answer.DoesNotExist:
     a = none
 
-  user = set_user(request.user)
-
-  form = get_answer_form(user, request)
+  form = get_answer_form(request)
 
   return render(request, 'q.html', {
       'q' : q,
       'a' : a,
       'form' : form,
-      'user': user
+      'user': request.user
   })
 
 def answer(request):
   print 'answer'
-  user = set_user(request.user)
-
-  form = get_answer_form(user, request)
+  form = get_answer_form(request)
 
   try:
     form.q_id
@@ -49,29 +45,23 @@ def answer(request):
   except:
     return render(request, 'q.html', {
         'form' : form,
-        'user': user
+        'user': request.user
     })
 
 
 
-def get_answer_form(user, request):
+def get_answer_form(request):
   print 'get_answer_form'
   if request.method == 'POST':
-    form = AnswerForm(user, request.POST)
+    form = AnswerForm(request.POST)
     if form.is_valid():
-      new_a = form.save()
-      form = AnswerForm(user)
+      new_a = form.save(request.user)
+      form = AnswerForm()
       form.greeting = "Аффтар, пишы ищо!"
       form.q_id = new_a.question_id
     return form
   else:
-    return AnswerForm(user)
-
-def set_user(user):
-  print 'set_user'
-  if not user.is_authenticated():
-    user = 'Anonymous'
-  return user
+    return AnswerForm()
 
 
 
@@ -117,19 +107,16 @@ def paginate(request, qs):
 
 def ask(request):
   print 'ask'
-#  user = set_user(request.user)
-  user = request.user
-
   if request.method == 'POST':
-    form = AskForm(user, request.POST)
+    form = AskForm(request.POST)
     if form.is_valid():
-      q = form.save()
+      q = form.save(request.user)
       print str(q.id)
       return HttpResponseRedirect('/question/'+str(q.id)+'/')
   else:
-    form = AskForm(user)
+    form = AskForm()
 
-  return render(request, 'ask.html', {'form': form, 'user': user})
+  return render(request, 'ask.html', {'form': form, 'user': request.user})
 
 
 
