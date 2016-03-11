@@ -114,7 +114,8 @@ def ask(request):
 #    form = AskForm(request.user, request.POST)
     form = AskForm(request.POST)
     if form.is_valid():
-      q = form.save(request.user)
+#      q = form.save(request.user)
+      q = form.save()
       return HttpResponseRedirect('/question/'+str(q.id)+'/')
   else:
 #    form = AskForm(request.user)

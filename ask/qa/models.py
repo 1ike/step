@@ -24,5 +24,5 @@ class Question(models.Model):
 class Answer(models.Model):
   text = models.TextField('текст ответа') # текст ответа
   added_at = models.DateTimeField('дата добавления ответа', auto_now_add=True) # дата добавления ответа
-  question = models.ForeignKey(Question, default=1, verbose_name='вопрос, к которому относится ответ') # вопрос, к которому относится ответ
+  question = models.ForeignKey(Question, verbose_name='вопрос, к которому относится ответ') # вопрос, к которому относится ответ
   author = models.ForeignKey(User, default=1, verbose_name='автор ответа') # автор ответа
