@@ -117,7 +117,8 @@ def paginate(request, qs):
 
 def ask(request):
   print 'ask'
-  user = set_user(request.user)
+#  user = set_user(request.user)
+  user = request.user
 
   if request.method == 'POST':
     form = AskForm(user, request.POST)

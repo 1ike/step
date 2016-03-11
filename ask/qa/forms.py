@@ -10,15 +10,15 @@ class AskForm(forms.Form):
   title = forms.CharField()
   text = forms.CharField(widget=forms.Textarea)
 
-  def __init__(self, user, *args, **kwargs):
+  def __init__(self, user, **kwargs):
     print '__init__'
     self._user = user
-    super(AskForm, self).__init__(*args, **kwargs)
+    super(AskForm, self).__init__(**kwargs)
 
   def save(self):
     if self._user != 'Anonymous':
       pass
-      self.cleaned_data['author'] = self._user
+#      self.cleaned_data['author'] = self._user
     return Question.objects.create(**self.cleaned_data)
 
 
