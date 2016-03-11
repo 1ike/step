@@ -7,7 +7,7 @@ Hi, {{ user }}!
 {% endfor %}
 </ul>
 
-<!-- if user.is_authenticated -->
+{% if user.is_authenticated %}
   <h1>Отвечайте ответ</h1>
 
   {% for e in form.non_field_errors %}
@@ -34,7 +34,7 @@ Hi, {{ user }}!
       <button type="submit" class="btn btn-primary">Отвечать быстро</button>
     </div>
   </form>
-<!-- endif -->
+{% endif %}
 
 
 <!-- Latest compiled and minified CSS -->
