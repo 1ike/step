@@ -80,15 +80,11 @@ def questions_list(request, **opt):
   except:
     qs = qs.order_by('-rating')
     baseurl = '/popular/?page='
-#  try:
-#    qs = qs[:]
-#  except Question.DoesNotExist:
-#    qs = none
+
   page = paginate(request, qs)
 
   return render(request, 'qs.html', {
       'posts' : page.object_list,
-#      'paginator' : paginator,
       'page' : page,
   })
 

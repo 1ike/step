@@ -9,13 +9,14 @@ class AskForm(forms.Form):
   title = forms.CharField()
   text = forms.CharField(widget=forms.Textarea)
 
-  def __init__(self, user, *opt):
+  def __init__(self, user, *args, **kwargs):
     self._user = user
-    super(AskForm, self).__init__(*opt)
+    super(AskForm, self).__init__(*args, **kwargs)
 
   def save(self):
     if self._user != 'Anonymous':
-      self.cleaned_data['author'] = self._user
+      pass
+#      self.cleaned_data['author'] = self._user
     return Question.objects.create(**self.cleaned_data)
 
 
@@ -24,9 +25,9 @@ class AnswerForm(forms.Form):
   question = forms.IntegerField(min_value=1)
   text = forms.CharField(widget=forms.Textarea)
 
-  def __init__(self, user, *opt):
+  def __init__(self, user, *args, **kwargs):
     self._user = user
-    super(AnswerForm, self).__init__(*opt)
+    super(AnswerForm, self).__init__(*args, **kwargs)
 
 
   def clean_question(self):

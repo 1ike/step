@@ -19,5 +19,5 @@ sudo /etc/init.d/mysql restart
 
 #  mysql -uroot -e "create database stepic"
 
-#  GRANT ALL ON stepic.* TO 'admin'@'localhost' IDENTIFIED BY '123';
-#  python manage.py syncdb
+#  mysql -uroot -e "GRANT ALL ON stepic.* TO 'admin'@'localhost' IDENTIFIED BY '123'"
+#  python web/ask/manage.py syncdb
