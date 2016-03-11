@@ -25,18 +25,21 @@ def question(request, id):
   except Answer.DoesNotExist:
     a = none
 
-  form = get_answer_form(request)
+  user = set_user(request.user)
+
+  form = get_answer_form(user, request)
 
   return render(request, 'q.html', {
       'q' : q,
       'a' : a,
       'form' : form,
-      'user': request.user
+      'user': user
   })
 
-#@login_required
 def answer(request):
-  form = get_answer_form(request)
+  user = set_user(request.user)
+
+  form = get_answer_form(user, request)
 
   try:
     form.q_id
@@ -44,26 +47,27 @@ def answer(request):
   except:
     return render(request, 'q.html', {
         'form' : form,
-        'user': request.user
+        'user': user
     })
 
 
 
-def get_answer_form(request):
-#  if request.method == 'POST' and request.user.is_authenticated():
+def get_answer_form(user, request):
   if request.method == 'POST':
-#    form = AnswerForm(request.user, request.POST)
-    form = AnswerForm(request.POST)
+    form = AnswerForm(user, request.POST)
     if form.is_valid():
-#      new_a = form.save(request.user)
       new_a = form.save()
-      form = AnswerForm()
+      form = AnswerForm(user)
       form.greeting = "Аффтар, пишы ищо!"
       form.q_id = new_a.question_id
     return form
   else:
-#    return AnswerForm(request.user)
-    return AnswerForm()
+    return AnswerForm(user)
+
+def set_user(user):
+  if not user.is_authenticated():
+    user = 'Anonymous'
+  return user
 
 
 
@@ -109,21 +113,19 @@ def paginate(request, qs):
 
 
 
-#@login_required
 def ask(request):
+  user = set_user(request.user)
+
   if request.method == 'POST':
-#    form = AskForm(request.user, request.POST)
-    form = AskForm(request.POST)
+    form = AskForm(user, request.POST)
     if form.is_valid():
-#      q = form.save(request.user)
       q = form.save()
       print str(q.id)
       return HttpResponseRedirect('/question/'+str(q.id)+'/')
   else:
-#    form = AskForm(request.user)
-    form = AskForm()
+    form = AskForm(user)
 
-  return render(request, 'ask.html', {'form': form, 'user': request.user})
+  return render(request, 'ask.html', {'form': form, 'user': user})
 
 
 
