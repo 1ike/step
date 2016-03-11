@@ -55,7 +55,8 @@ def get_answer_form(request):
 #    form = AnswerForm(request.user, request.POST)
     form = AnswerForm(request.POST)
     if form.is_valid():
-      new_a = form.save(request.user)
+#      new_a = form.save(request.user)
+      new_a = form.save()
       form = AnswerForm()
       form.greeting = "Аффтар, пишы ищо!"
       form.q_id = new_a.question_id
@@ -116,6 +117,7 @@ def ask(request):
     if form.is_valid():
 #      q = form.save(request.user)
       q = form.save()
+      print str(q.id)
       return HttpResponseRedirect('/question/'+str(q.id)+'/')
   else:
 #    form = AskForm(request.user)

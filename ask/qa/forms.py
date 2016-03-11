@@ -13,9 +13,10 @@ class AskForm(forms.Form):
 #    self._user = user
 #    super(AskForm, self).__init__(*opt)
 
-  def save(self, user):
+#  def save(self, user):
+  def save(self):
 #    self.cleaned_data['author'] = self._user
-    self.cleaned_data['author'] = user
+#    self.cleaned_data['author'] = user
     return Question.objects.create(**self.cleaned_data)
 
 
@@ -36,13 +37,14 @@ class AnswerForm(forms.Form):
     except:
       raise forms.ValidationError("Нет такого вопроса!")
 
-  def save(self, user):
+#  def save(self, user):
+  def save(self):
     pass
     return Answer.objects.create(
       question=self._q,
       text=self.cleaned_data['text'],
 #      author=self._user
-      author=user
+#      author=user
     )
 
 
