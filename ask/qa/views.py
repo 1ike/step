@@ -19,6 +19,7 @@ def test(request, *args, **kwargs):
 
 
 def question(request, id):
+  print 'question'
   q = get_object_or_404(Question, id=id)
   try:
     a = Answer.objects.filter(question=id)[:]
@@ -37,6 +38,7 @@ def question(request, id):
   })
 
 def answer(request):
+  print 'answer'
   user = set_user(request.user)
 
   form = get_answer_form(user, request)
@@ -53,6 +55,7 @@ def answer(request):
 
 
 def get_answer_form(user, request):
+  print 'get_answer_form'
   if request.method == 'POST':
     form = AnswerForm(user, request.POST)
     if form.is_valid():
@@ -65,6 +68,7 @@ def get_answer_form(user, request):
     return AnswerForm(user)
 
 def set_user(user):
+  print 'set_user'
   if not user.is_authenticated():
     user = 'Anonymous'
   return user
@@ -72,6 +76,7 @@ def set_user(user):
 
 
 def questions_list(request, **opt):
+  print 'questions_list'
   qs = Question.objects
   try:
     opt['name']
@@ -90,6 +95,7 @@ def questions_list(request, **opt):
 
 
 def paginate(request, qs):
+  print 'paginate'
   try:
     limit = int(request.GET.get('limit', 10))
   except ValueError:
@@ -110,6 +116,7 @@ def paginate(request, qs):
 
 
 def ask(request):
+  print 'ask'
   user = set_user(request.user)
 
   if request.method == 'POST':

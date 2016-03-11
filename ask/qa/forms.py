@@ -6,10 +6,12 @@ from views import *
 
 
 class AskForm(forms.Form):
+  print 'AskForm'
   title = forms.CharField()
   text = forms.CharField(widget=forms.Textarea)
 
   def __init__(self, user, *args, **kwargs):
+    print '__init__'
     self._user = user
     super(AskForm, self).__init__(*args, **kwargs)
 
@@ -22,6 +24,7 @@ class AskForm(forms.Form):
 
 
 class AnswerForm(forms.Form):
+  print 'AnswerForm'
   question = forms.IntegerField(min_value=1)
   text = forms.CharField(widget=forms.Textarea)
 
