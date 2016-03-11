@@ -34,7 +34,7 @@ def question(request, id):
       'user': request.user
   })
 
-@login_required
+#@login_required
 def answer(request):
   form = get_answer_form(request)
 
@@ -112,7 +112,7 @@ def paginate(request, qs):
 
 
 
-@login_required
+#@login_required
 def ask(request):
   if request.method == 'POST':
 #    form = AskForm(request.user, request.POST)

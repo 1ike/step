@@ -5,7 +5,7 @@ sudo ln -sf /home/box/web/etc/ask.conf   /etc/gunicorn.d/ask
 sudo /etc/init.d/gunicorn restart
 sudo /etc/init.d/mysql restart
 
-#  rm -rf /home/box
+#  rm -rf /home/box/web
 #  git clone https://github.com/discodanser/step.git /home/box/web
 #  bash /home/box/web/init.sh
 
