@@ -1,0 +1,33 @@
+<h1>Подпишись. <small>А то пожалеешь! :P</small></h1>
+
+
+{% for e in form.non_field_errors %}
+<div class="alert alert-danger">{{ e }}</div>
+{% endfor %}
+
+
+<form action="" method="post" class="form-horizontal">
+  {% csrf_token %}
+  <fieldset>
+  {% for field in form %}
+    <div class="control-group{% if field.errors %} has-error{% endif %}">
+      <label class="control-label">{{ field.label }}</label>
+      <div class="control">{{ field }}</div>
+    </div>
+  {% endfor %}
+  </fieldset>
+  <br>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+  </div>
+</form>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<style>
+  body {padding:20px 0 0 50px}
+</style>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
