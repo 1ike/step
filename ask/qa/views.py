@@ -5,6 +5,8 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.core.paginator import *
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import login
+from django.contrib.auth.models import User
 
 
 from models import * #Question, Answer
@@ -111,12 +113,25 @@ def ask(request):
     form = AskForm(request.POST)
     if form.is_valid():
       q = form.save(request.user)
-      print str(q.id)
       return HttpResponseRedirect('/question/'+str(q.id)+'/')
   else:
     form = AskForm()
 
   return render(request, 'ask.html', {'form': form, 'user': request.user})
+
+
+
+def signup(request):
+  if request.method == 'POST':
+    form = SignupForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return HttpResponseRedirect('/')
+  else:
+    form = SignupForm()
+
+  return render(request, 'signup.html', {'form': form})
 
 
 

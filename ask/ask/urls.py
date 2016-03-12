@@ -5,9 +5,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('qa.views',
 
-    url(r'^$', 'questions_list', {'name': 'home'}, name='home'),
-    url(r'^login/$', 'test', name='login'),
-    url(r'^signup/$', 'test', name='signup'),
+    url(r'^$', 'questions_list', name='home'),
+    url(r'^login/$', 'login', {'template_name':'login.html'}, name='login'),
+    url(r'^signup/$', 'signup', name='signup'),
     url(r'^question/(?P<id>\d+)/$', 'question', name='question'),
     url(r'^ask/$', 'ask', name='ask'),
     url(r'^answer/$', 'answer', name='answer'),
@@ -17,4 +17,3 @@ urlpatterns = patterns('qa.views',
     url(r'^admin/', include(admin.site.urls)),
 
 )
-

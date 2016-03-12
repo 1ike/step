@@ -39,8 +39,14 @@ class AnswerForm(forms.Form):
 
 
 
+class SignupForm(forms.Form):
+  print 'SignupForm'
+  username = forms.CharField()
+  email = forms.EmailField(required=False)
+  password = forms.CharField(widget=forms.PasswordInput)
 
-
+  def save(self):
+    return User.objects.create_user(self.cleaned_data['username'], self.cleaned_data['email'], self.cleaned_data['password'])
 
 
 
