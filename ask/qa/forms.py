@@ -42,8 +42,7 @@ class AnswerForm(forms.Form):
 class SignupForm(forms.Form):
   print 'SignupForm'
   username = forms.CharField()
-#  email = forms.EmailField(required=False)
-  email = forms.EmailField()
+  email = forms.EmailField(required=False)
   password = forms.CharField(widget=forms.PasswordInput)
 
   def save(self):
@@ -52,7 +51,6 @@ class SignupForm(forms.Form):
       self.cleaned_data['email'],
       self.cleaned_data['password']
     )
-  print 'SignupFormEnd'
 
 
 
